@@ -180,10 +180,7 @@ function plotCharts(id) {
         // plot the bar chart to the "bar" div
         Plotly.newPlot("bar", dataBar, layoutBar);
 
-        // ----------------------------------
         // PLOT BUBBLE CHART
-        // ----------------------------------
-
         // create trace
         var traceBub = {
             x: otu_ids[0],
