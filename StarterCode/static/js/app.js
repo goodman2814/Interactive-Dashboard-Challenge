@@ -22,15 +22,12 @@ function init() {
     // read in samples from JSON file
     d3.json("samples.json").then((data => {
 
-        // ----------------------------------
         // POPULATE DROPDOWN MENU WITH IDs 
-        // ----------------------------------
-
         //  use a forEach to loop over each name in the array data.names to populate dropdowns with IDs
         data.names.forEach((name => {
             var option = idSelect.append("option");
             option.text(name);
-        })); // close forEach
+        })); 
 
         // get the first ID from the list for initial charts as a default
         var initId = idSelect.property("value")
@@ -38,23 +35,19 @@ function init() {
         // plot charts with initial ID
         plotCharts(initId);
 
-    })); // close .then()
+    })); 
 
-} // close init() function
+} 
 
 // create a function to reset divs to prepare for new data
 function resetData() {
-
-    // ----------------------------------
-    // CLEAR THE DATA
-    // ----------------------------------
 
     demographicsTable.html("");
     barChart.html("");
     bubbleChart.html("");
     gaugeChart.html("");
 
-}; // close resetData()
+};
 
 // create a function to read JSON and plot charts
 function plotCharts(id) {
@@ -62,10 +55,7 @@ function plotCharts(id) {
     // read in the JSON data
     d3.json("samples.json").then((data => {
 
-        // ----------------------------------
         // POPULATE DEMOGRAPHICS TABLE
-        // ----------------------------------
-
         // filter the metadata for the ID chosen
         var individualMetadata = data.metadata.filter(participant => participant.id == id)[0];
 
@@ -87,11 +77,9 @@ function plotCharts(id) {
             // add the key value pair from the metadata to the demographics list
             listItem.text(`${key}: ${value}`);
 
-        }); // close forEach
+        });
 
-        // --------------------------------------------------
         // RETRIEVE DATA FOR PLOTTING CHARTS
-        // --------------------------------------------------
 
         // filter the samples for the ID chosen
         var individualSample = data.samples.filter(sample => sample.id == id)[0];
@@ -117,9 +105,9 @@ function plotCharts(id) {
                     // case
                 default:
                     break;
-            } // close switch statement
+            }
 
-        }); // close forEach
+        });
 
         // slice and reverse the arrays to get the top 10 values, labels and IDs
         var topOtuIds = otu_ids[0].slice(0, 10).reverse();
@@ -129,9 +117,8 @@ function plotCharts(id) {
         // use the map function to store the IDs with "OTU" for labelling y-axis
         var topOtuIdsFormatted = topOtuIds.map(otuID => "OTU " + otuID);
 
-        // ----------------------------------
+        
         // PLOT BAR CHART
-        // ----------------------------------
 
         // create a trace
         var traceBar = {
@@ -153,11 +140,11 @@ function plotCharts(id) {
             height: 500,
             width: 600,
             font: {
-                family: 'Quicksand'
+                family: 'Georgia'
             },
             hoverlabel: {
                 font: {
-                    family: 'Quicksand'
+                    family: 'Georgia'
                 }
             },
             title: {
@@ -200,11 +187,11 @@ function plotCharts(id) {
         // define the plot layout
         var layoutBub = {
             font: {
-                family: 'Quicksand'
+                family: 'Georgia'
             },
             hoverlabel: {
                 font: {
-                    family: 'Quicksand'
+                    family: 'Georgia'
                 }
             },
             xaxis: {
@@ -221,9 +208,7 @@ function plotCharts(id) {
         // plot the bubble chat to the appropriate div
         Plotly.newPlot('bubble', dataBub, layoutBub);
 
-        // ----------------------------------
         // PLOT GAUGE CHART (OPTIONAL)
-        // ----------------------------------
 
         // if wfreq has a null value, make it zero for calculating pointer later
         if (wfreq == null) {
@@ -269,8 +254,7 @@ function plotCharts(id) {
         var x = radius * Math.cos(radians);
         var y = radius * Math.sin(radians);
 
-        // Path: to create needle shape (triangle). Initial coordinates of two of the triangle corners plus the third calculated end tip that points to the appropriate segment on the gauge 
-        // M aX aY L bX bY L cX cY Z
+        // Path: to create needle shape (triangle).
         var mainPath = 'M -.0 -0.025 L .0 0.025 L ',
             cX = String(x),
             cY = String(y),
@@ -306,11 +290,11 @@ function plotCharts(id) {
                 }
             }],
             font: {
-                family: 'Quicksand'
+                family: 'Georgia'
             },
             hoverlabel: {
                 font: {
-                    family: 'Quicksand',
+                    family: 'Georgia',
                     size: 16
                 }
             },
@@ -343,9 +327,9 @@ function plotCharts(id) {
         Plotly.newPlot('gauge', dataGauge, layoutGauge);
 
 
-    })); // close .then function
+    })); 
 
-}; // close plotCharts() function
+}; 
 
 // when there is a change in the dropdown select menu, this function is called with the ID as a parameter
 function optionChanged(id) {
@@ -357,7 +341,7 @@ function optionChanged(id) {
     plotCharts(id);
 
 
-} // close optionChanged function
+} 
 
 // call the init() function for default data
 init();
